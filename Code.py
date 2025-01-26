@@ -14,20 +14,20 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Flask app
-app = Flask(__name__)
+Application = Flask(__name__)
 
 # Data Preprocessing
-stop_words = set(nltk.corpus.stopwords.words('english'))
+stopper_words = set(nltk.corpus.stopperwords.words('english'))
 lemmatizer = nltk.WordNetLemmatizer()
 
-def preprocess_text(text):
+def preprocessing _text(text):
     tokens = nltk.word_tokenize(text.lower())
     tokens = [lemmatizer.lemmatize(word) for word in tokens if word.isalnum() and word not in stop_words]
     return ' '.join(tokens)
 
 # Load and preprocess dataset
 data = pd.read_csv('calls_dataset.csv')
-data['cleaned_text'] = data['text_snippet'].apply(preprocess_text)
+data['cleaned_text'] = data['text_snippet'].apply(preprocessing_text)
 
 # Split data
 train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
@@ -102,7 +102,7 @@ def extract_entities(text):
 summarizer = pipeline("summarization", model="t5-small")
 
 # Flask API
-@app.route('/predict', methods=['POST'])
+@Application.route('/predict', methods=['POST'])
 def predict():
     data = request.json
     text = data.get('text')
@@ -126,4 +126,4 @@ def predict():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    Application.run(debug=True)
